@@ -1,5 +1,25 @@
 # MSSQL-to-JSON.
 MSSQL to JSON is a Windows Service application designed to retrieve data from an MSSQL database using a pre-defined SQL query and convert the results into JSON format.
+
+# App.config 
+“`
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<configuration>
+	<connectionStrings>
+	 		<add name="MyConnectionString" connectionString="Data Source=IPADRESS;Initial Catalog=DATABASE_NAME;User ID=SQLUSER;Password=SQLPASSWORD" />
+	</connectionStrings>
+	<appSettings>
+		<!-- Hangi saat aralıklarında çalışacak ise aşağıda saatleri belirtin.-->
+		<add key="StartTime" value="08" />
+		<add key="EndTime" value="23" />
+		<add key="MerchantID" value="2" />
+		<add key="MerchantName" value="KILICLAR" />
+		
+	</appSettings>
+</configuration>
+
+“`
  
 # Description:
 MSSQL to JSON is a Windows Service application designed to retrieve data from an MSSQL database using a pre-defined SQL query and convert the results into JSON format. The application runs at regular intervals, updating the JSON file with the latest data. The generated JSON file and a detailed log of the process are made accessible through the Internet Information Services (IIS), ensuring secure access for authorized users.

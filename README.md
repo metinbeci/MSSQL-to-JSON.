@@ -40,7 +40,7 @@ Summary
 6. Copying Files to the Target Directory
 7. Error Handling
 
-```python
+```csharp
  
 private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
@@ -145,6 +145,11 @@ private void OnTimerElapsed(object sender, ElapsedEventArgs e)
             }
         }
 ```
+ 
+
+./assets/JSON.jpg "SAMPLE JSON OUTPUT"
+./assets/JSON.jpg "SAMPLE LOG OUTPUT"
+
 # Key Features:
 
 Automatically fetches data from MSSQL database and converts it to JSON format.

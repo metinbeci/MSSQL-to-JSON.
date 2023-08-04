@@ -26,8 +26,7 @@ Sample configuration setup
 </configuration>
 ```
 
-* * * *
-
+---
 Summary
 
 ```
@@ -41,8 +40,8 @@ Summary
 6. Copying Files to the Target Directory
 7. Error Handling
 
-* * * *
-
+----
+Shell
 private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             try

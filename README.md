@@ -26,6 +26,7 @@ Sample configuration setup
 </configuration>
 ```
 ---
+
 Summary
 
 ```
@@ -38,8 +39,8 @@ Summary
 5. Duration Calculations and Log Messages
 6. Copying Files to the Target Directory
 7. Error Handling
-
 ---
+
 private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             try

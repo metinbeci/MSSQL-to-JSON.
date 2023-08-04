@@ -147,8 +147,8 @@ private void OnTimerElapsed(object sender, ElapsedEventArgs e)
 ```
  
 
-./assets/JSON.jpg "SAMPLE JSON OUTPUT"
-./assets/JSON.jpg "SAMPLE LOG OUTPUT"
+./JSON.jpg "SAMPLE JSON OUTPUT"
+./JSON.jpg "SAMPLE LOG OUTPUT"
 
 # Key Features:
 

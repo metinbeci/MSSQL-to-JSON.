@@ -29,7 +29,7 @@ Sample configuration setup
  
 Summary
 
-```csharp
+ 
  Sure, here is a translation of the summarized steps into English:
 
 1. Time Check and Determining the Operating Time
@@ -40,6 +40,7 @@ Summary
 6. Copying Files to the Target Directory
 7. Error Handling
 
+```python
  
 private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {

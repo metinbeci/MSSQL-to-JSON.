@@ -16,7 +16,7 @@ Sample configuration setup
 	 		<add name="MyConnectionString" connectionString="Data Source=IPADRESS;Initial Catalog=DATABASE_NAME;User ID=SQLUSER;Password=SQLPASSWORD" />
 	</connectionStrings>
 	<appSettings>
-		<!-- Hangi saat aralıklarında çalışacak ise aşağıda saatleri belirtin.-->
+			<!-- Specify the hours below in which hours it will work. (Hangi saat aralıklarında çalışacak ise aşağıda saatleri belirtin.)-->
 		<add key="StartTime" value="08" />
 		<add key="EndTime" value="23" />
 		<add key="MerchantID" value="2" />
@@ -25,7 +25,8 @@ Sample configuration setup
 	</appSettings>
 </configuration>
 ```
----
+
+* * * *
 
 Summary
 
@@ -39,27 +40,28 @@ Summary
 5. Duration Calculations and Log Messages
 6. Copying Files to the Target Directory
 7. Error Handling
----
+
+* * * *
 
 private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             try
             {
-                // Saat kontrolü yapalım
+                // Let's check the clock (Saat kontrolü yapalım)
                 DateTime now = DateTime.Now;
                 int hour = now.Hour;
                 int startTime = int.Parse(ConfigurationManager.AppSettings["StartTime"]);
                 int endTime = int.Parse(ConfigurationManager.AppSettings["EndTime"]);
 
 
-                // Belirli saat aralıklarında çalışmasını istemediğiniz saatleri burada belirleyin
+                // Specify the hours you do not want to run in certain time intervals here (Belirli saat aralıklarında çalışmasını istemediğiniz saatleri burada belirleyin )
                 if (hour < startTime || hour >= endTime)
                 {
-                    // Uygulama çalıştırılmayacak, beklemeye geçecek
+                    // The application will not run, it will go to standby (Uygulama çalıştırılmayacak, beklemeye geçecek)
                     if (!logMessageDisplayed)
                     {
                         logMessageDisplayed = true;
-                        LogMessage("Belirli saat araliklarinda calismayacak zaman dilimi. Gecerli Saat Bekleniyor...(" + startTime +  endTime + ")");
+                        LogMessage("The time period that will not work at certain time intervals. Current Time Waiting...(" + startTime +  endTime + ")");
                     }
                     return;
                 }
@@ -76,7 +78,7 @@ private void OnTimerElapsed(object sender, ElapsedEventArgs e)
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    LogMessage("SQL Baglantisi ACILDI.");
+                    LogMessage("SQL Connection OPENED.");
                 
 
                     string query = "select * from [_IDEPEX_PAZARYERI_MIKRODATA_fark]";
@@ -89,11 +91,11 @@ private void OnTimerElapsed(object sender, ElapsedEventArgs e)
                         SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
                         dataAdapter.Fill(dataTable);
                         int rowCount = dataTable.Rows.Count;
-                        LogMessage("SQL Sorgular TAMAMLANDI.");
+                        LogMessage("SQL Queries DONE.");
                         connection.Close();
-                        LogMessage("SQL Baglantisi KAPATILDI.");
+                        LogMessage("SQL Connection CLOSED.");
 
-                        // Veriyi JSON dosyasına yazma
+                        // Let's write the data to JSON file (Veriyi JSON dosyasına yazalım)
                          
  
                         string outputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "output_"+ merchantID + ".json");
@@ -102,45 +104,45 @@ private void OnTimerElapsed(object sender, ElapsedEventArgs e)
                 }
                 stopwatch.Stop();
 
-                // Süreyi JSON dosyasına yazma
+                // Let's write the time to the JSON file (Süreyi JSON dosyasına yazalım)
                 string timeTakenComment = "Islem Suresi: " + stopwatch.Elapsed.TotalSeconds ;
 
                 string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "output_"+ merchantID +".json");
                 string LogFilePath  = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ServiceLog_" + merchantID + ".txt");
 
 
-                LogMessage("JSON Dosyasi OLUSTURULDU.");
+                LogMessage("JSON File CREATED.");
                 LogMessage(timeTakenComment);
 
-                //inetpub altına kopyala C:\inetpub\wwwroot\TrendyolServis
-                // Hedef klasörü oluşturun (eğer yoksa)
+                //inetpub copy below C:\inetpub\wwwroot\TrendyolServis
+                // Create the destination folder(Hedef klasörü oluşturun) (eğer yoksa)
                 string targetDirectory = "c:\\inetpub\\wwwroot\\TrendyolServis";
                 Directory.CreateDirectory(targetDirectory);
 
 
 
-                // JSON dosyasının hedefte var olup olmadığını kontrol edin
+                // Check if JSON file exists in destination (JSON dosyasının hedefte var olup olmadığını kontrol edin)
                 string targetPath = Path.Combine(targetDirectory, "output_" + merchantID + ".json");
                 if (File.Exists(targetPath))
                 {
-                    File.Delete(targetPath); // Dosya varsa silin
+                    File.Delete(targetPath); // If the file exists, delete it (Dosya varsa silin)
                 }
-                File.Copy(jsonFilePath, targetPath); // Dosyayı taşı
+                File.Copy(jsonFilePath, targetPath); // copy file (Dosyayı kopyala)
 
-                // ServiceLog.txt dosyasının hedefte var olup olmadığını kontrol edin
+                // ServiceLog.txt Check if the file exists in the destination (dosyasının hedefte var olup olmadığını kontrol edin)
                 string targetServiceLogFilePath = Path.Combine(targetDirectory, "ServiceLog_" + merchantID + ".txt");
                 if (File.Exists(targetServiceLogFilePath))
                 {
-                    File.Delete(targetServiceLogFilePath); // Dosya varsa silin
+                    File.Delete(targetServiceLogFilePath); // If the file exists, delete it(Dosya varsa silin)
                 }
-                File.Copy(LogFilePath, targetServiceLogFilePath); // Dosyayı taşı
+                File.Copy(LogFilePath, targetServiceLogFilePath); // copy file (Dosyayı kopyala)
 
 
             }
             catch (Exception ex)
             {
-                // Hata yönetimi  
-                LogMessage("HATA OLUSTU: " + ex.Message);
+                // Error handling (Hata yönetimi)
+                LogMessage("An error occurred: " + ex.Message);
             }
         }
 ```

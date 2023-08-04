@@ -25,8 +25,124 @@ Sample configuration setup
 	</appSettings>
 </configuration>
 ```
+---
+Summary
 
-£££
+```
+ Sure, here's a translation of the summarized steps into English:
+
+1. Time Check and Determining the Operating Time
+2. Time Check and Log Message
+3. Database Connection and Data Retrieval
+4. Writing Data to JSON File
+5. Duration Calculations and Log Messages
+6. Copying Files to the Target Directory
+7. Error Handling
+
+---
+private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                // Saat kontrolü yapalım
+                DateTime now = DateTime.Now;
+                int hour = now.Hour;
+                int startTime = int.Parse(ConfigurationManager.AppSettings["StartTime"]);
+                int endTime = int.Parse(ConfigurationManager.AppSettings["EndTime"]);
+
+
+                // Belirli saat aralıklarında çalışmasını istemediğiniz saatleri burada belirleyin
+                if (hour < startTime || hour >= endTime)
+                {
+                    // Uygulama çalıştırılmayacak, beklemeye geçecek
+                    if (!logMessageDisplayed)
+                    {
+                        logMessageDisplayed = true;
+                        LogMessage("Belirli saat araliklarinda calismayacak zaman dilimi. Gecerli Saat Bekleniyor...(" + startTime +  endTime + ")");
+                    }
+                    return;
+                }
+                else
+                {
+                 
+                    logMessageDisplayed = false;
+                }
+
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+                int merchantID = int.Parse(ConfigurationManager.AppSettings["MerchantID"]);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    LogMessage("SQL Baglantisi ACILDI.");
+                
+
+                    string query = "select * from [_IDEPEX_PAZARYERI_MIKRODATA_fark]";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+             
+                    {
+                        command.CommandTimeout = 100;
+                        DataTable dataTable = new DataTable();
+                        SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
+                        dataAdapter.Fill(dataTable);
+                        int rowCount = dataTable.Rows.Count;
+                        LogMessage("SQL Sorgular TAMAMLANDI.");
+                        connection.Close();
+                        LogMessage("SQL Baglantisi KAPATILDI.");
+
+                        // Veriyi JSON dosyasına yazma
+                         
+ 
+                        string outputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "output_"+ merchantID + ".json");
+                        WriteDataTableToJson(dataTable, rowCount, outputPath, stopwatch.Elapsed.TotalSeconds);
+                    }
+                }
+                stopwatch.Stop();
+
+                // Süreyi JSON dosyasına yazma
+                string timeTakenComment = "Islem Suresi: " + stopwatch.Elapsed.TotalSeconds ;
+
+                string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "output_"+ merchantID +".json");
+                string LogFilePath  = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ServiceLog_" + merchantID + ".txt");
+
+
+                LogMessage("JSON Dosyasi OLUSTURULDU.");
+                LogMessage(timeTakenComment);
+
+                //inetpub altına kopyala C:\inetpub\wwwroot\TrendyolServis
+                // Hedef klasörü oluşturun (eğer yoksa)
+                string targetDirectory = "c:\\inetpub\\wwwroot\\TrendyolServis";
+                Directory.CreateDirectory(targetDirectory);
+
+
+
+                // JSON dosyasının hedefte var olup olmadığını kontrol edin
+                string targetPath = Path.Combine(targetDirectory, "output_" + merchantID + ".json");
+                if (File.Exists(targetPath))
+                {
+                    File.Delete(targetPath); // Dosya varsa silin
+                }
+                File.Copy(jsonFilePath, targetPath); // Dosyayı taşı
+
+                // ServiceLog.txt dosyasının hedefte var olup olmadığını kontrol edin
+                string targetServiceLogFilePath = Path.Combine(targetDirectory, "ServiceLog_" + merchantID + ".txt");
+                if (File.Exists(targetServiceLogFilePath))
+                {
+                    File.Delete(targetServiceLogFilePath); // Dosya varsa silin
+                }
+                File.Copy(LogFilePath, targetServiceLogFilePath); // Dosyayı taşı
+
+
+            }
+            catch (Exception ex)
+            {
+                // Hata yönetimi  
+                LogMessage("HATA OLUSTU: " + ex.Message);
+            }
+        }
+```
 # Key Features:
 
 Automatically fetches data from MSSQL database and converts it to JSON format.

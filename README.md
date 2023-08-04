@@ -149,7 +149,7 @@ private void OnTimerElapsed(object sender, ElapsedEventArgs e)
 
 ./JSON.jpg "SAMPLE JSON OUTPUT"
 ./JSON.jpg "SAMPLE LOG OUTPUT"
-![Açıklama](./assent/LOG.jpg)
+![Açıklama](https://github.com/metinbeci/MSSQL-to-JSON./blob/master/LOG.jpg)
 
 # Key Features:
 

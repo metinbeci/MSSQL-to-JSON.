@@ -147,10 +147,11 @@ private void OnTimerElapsed(object sender, ElapsedEventArgs e)
 ```
  
  
- 
-![Açıklama](https://github.com/metinbeci/MSSQL-to-JSON./blob/master/LOG.jpg) "SAMPLE LOG OUTPUT"
+ SAMPLE LOG OUTPUT:
+![Açıklama](https://github.com/metinbeci/MSSQL-to-JSON./blob/master/LOG.jpg) 
 
-![Açıklama](https://github.com/metinbeci/MSSQL-to-JSON./blob/master/JSON.jpg) "SAMPLE JSON OUTPUT"
+ SAMPLE JSON OUTPUT:
+![Açıklama](https://github.com/metinbeci/MSSQL-to-JSON./blob/master/JSON.jpg)
 # Key Features:
 
 Automatically fetches data from MSSQL database and converts it to JSON format.

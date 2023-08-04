@@ -148,9 +148,11 @@ private void OnTimerElapsed(object sender, ElapsedEventArgs e)
  
  
  SAMPLE LOG OUTPUT:  
+ 
 ![Açıklama](https://github.com/metinbeci/MSSQL-to-JSON./blob/master/LOG.jpg) 
 
  SAMPLE JSON OUTPUT:  
+ 
 ![Açıklama](https://github.com/metinbeci/MSSQL-to-JSON./blob/master/JSON.jpg)
 # Key Features:
 

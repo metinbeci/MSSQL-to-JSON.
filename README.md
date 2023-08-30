@@ -30,7 +30,7 @@ Sample configuration setup
 Summary
 
  
- Sure, here is a translation of the summarized steps into English:
+ 
 
 1. Time Check and Determining the Operating Time
 2. Time Check and Log Message
